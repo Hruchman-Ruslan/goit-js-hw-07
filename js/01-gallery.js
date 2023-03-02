@@ -31,17 +31,20 @@ containerGalleryRef.addEventListener("click", (e) => {
   handleShowImgElement(e.target.dataset.source);
 });
 
-const handleShowImgElement = (e) => {
+const handleShowImgElement = (source) => {
   const instance = basicLightbox.create(`
-    <img src="${e}">
+    <img src="${source}">
 `);
   instance.show();
 
   containerGalleryRef.addEventListener("keydown", (e) => {
     if (e.code === "Escape") {
+      document.removeEventListener("keydown", handleShowImgElement);
       instance.close();
     }
   });
+
+  document.addEventListener("keydown", handleShowImgElement);
 };
 
 containerGalleryRef.innerHTML = handleCreateImgElements(galleryItems);
